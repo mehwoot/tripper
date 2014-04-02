@@ -39,6 +39,8 @@
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.currentPosition)).BeginInit();
             this.SuspendLayout();
@@ -123,12 +125,29 @@
             this.hScrollBar1.Name = "hScrollBar1";
             this.hScrollBar1.Size = new System.Drawing.Size(1023, 17);
             this.hScrollBar1.TabIndex = 9;
+            this.hScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.hScrollBar1_Scroll);
+            // 
+            // panel1
+            // 
+            this.panel1.Location = new System.Drawing.Point(0, 9);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(12, 588);
+            this.panel1.TabIndex = 10;
+            // 
+            // panel2
+            // 
+            this.panel2.Location = new System.Drawing.Point(1036, 12);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(59, 588);
+            this.panel2.TabIndex = 11;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1087, 808);
+            this.Controls.Add(this.panel2);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.hScrollBar1);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.button4);
@@ -156,6 +175,8 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.HScrollBar hScrollBar1;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panel2;
     }
 }
 

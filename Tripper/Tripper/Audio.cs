@@ -70,6 +70,11 @@ namespace Tripper
             playing = false;
         }
 
+        public int getOffset(float amt)
+        {
+            return (int)(analyser.width * amt);
+        }
+
         ~Audio()
         {
             if (waveOutDevice != null)

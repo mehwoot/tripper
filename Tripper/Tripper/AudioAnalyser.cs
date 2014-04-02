@@ -19,6 +19,7 @@ namespace Tripper
         System.Drawing.Graphics graphics;
         int currentMax = 0, currentMin = 0;
         AudioFileReader audioFileReader;
+        public int width;
 
         public AudioAnalyser()
         {
@@ -50,9 +51,10 @@ namespace Tripper
 
         public void clear()
         {
-            rendering = new Bitmap(1024, 512);
+            width = (int)(audioFileReader.Length / (long)(_samplingLength * 4)) + 1;
+            rendering = new Bitmap(width, 512);
             graphics = Graphics.FromImage(rendering);
-            graphics.DrawLine(System.Drawing.Pens.Red, new Point(0, 256), new Point(1024, 256));
+            graphics.DrawLine(System.Drawing.Pens.Red, new Point(0, 256), new Point(width, 256));
             currentMax = 0;
             currentMin = 0;
             sampleCount = 0;
