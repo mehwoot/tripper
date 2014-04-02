@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="Audio.cs" />
     <Compile Include="AudioAnalyser.cs" />
+    <Compile Include="Channel.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
