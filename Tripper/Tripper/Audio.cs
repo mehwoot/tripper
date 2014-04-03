@@ -7,6 +7,7 @@ using NAudio;
 using NAudio.Wave;
 using System.Data;
 using System.Drawing;
+using System.Diagnostics;
 
 namespace Tripper
 {
@@ -19,6 +20,7 @@ namespace Tripper
         public int totalRead;
         string filename;
         public bool playing;
+        Stopwatch stopwatch;
 
         public void setPlayPosition(int position)
         {
@@ -37,6 +39,11 @@ namespace Tripper
             return (float)(audioFileReader.Position) / (float)(analyser._samplingLength * 4 * 1024);
         }
 
+        public long getPosition()
+        {
+            return (stopwatch.ElapsedMilliseconds * 88 * 4) + 105000;
+        }
+
         public Audio()
         {
             filename = "test.mp3";
@@ -49,6 +56,8 @@ namespace Tripper
             totalRead = analyser.analyse(4096, filename);
 
             waveOutDevice.Play();
+            stopwatch = new Stopwatch();
+            stopwatch.Start();
             playing = true;
 
         }

@@ -41,6 +41,7 @@
             this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.button6 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.currentPosition)).BeginInit();
             this.SuspendLayout();
@@ -59,7 +60,7 @@
             // 
             this.pictureBox1.Location = new System.Drawing.Point(12, 41);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1024, 512);
+            this.pictureBox1.Size = new System.Drawing.Size(1024, 244);
             this.pictureBox1.TabIndex = 2;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
@@ -75,7 +76,7 @@
             this.currentPosition.InitialImage = ((System.Drawing.Image)(resources.GetObject("currentPosition.InitialImage")));
             this.currentPosition.Location = new System.Drawing.Point(12, 41);
             this.currentPosition.Name = "currentPosition";
-            this.currentPosition.Size = new System.Drawing.Size(5, 511);
+            this.currentPosition.Size = new System.Drawing.Size(5, 244);
             this.currentPosition.TabIndex = 4;
             this.currentPosition.TabStop = false;
             // 
@@ -121,7 +122,7 @@
             // 
             // hScrollBar1
             // 
-            this.hScrollBar1.Location = new System.Drawing.Point(13, 559);
+            this.hScrollBar1.Location = new System.Drawing.Point(15, 288);
             this.hScrollBar1.Name = "hScrollBar1";
             this.hScrollBar1.Size = new System.Drawing.Size(1023, 17);
             this.hScrollBar1.TabIndex = 9;
@@ -141,11 +142,22 @@
             this.panel2.Size = new System.Drawing.Size(59, 588);
             this.panel2.TabIndex = 11;
             // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(418, 12);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(75, 23);
+            this.button6.TabIndex = 12;
+            this.button6.Text = "button6";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1087, 808);
+            this.Controls.Add(this.button6);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.hScrollBar1);
@@ -158,6 +170,8 @@
             this.Controls.Add(this.button1);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
+            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.currentPosition)).EndInit();
             this.ResumeLayout(false);
@@ -177,6 +191,7 @@
         private System.Windows.Forms.HScrollBar hScrollBar1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Button button6;
     }
 }
 

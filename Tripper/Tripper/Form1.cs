@@ -24,15 +24,17 @@ namespace Tripper
         public Form1()
         {
             InitializeComponent();
+            DMX.initLazer();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
 
             audio = new Audio();
-            pictureBox1.ClientSize = new Size(10000, 512);
+            pictureBox1.ClientSize = new Size(10000, 256);
             pictureBox1.Image = audio.analyser.rendering;
             timer1.Enabled = true;
+            
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -48,6 +50,18 @@ namespace Tripper
         private void timer1_Tick(object sender, EventArgs e)
         {
             currentPosition.Left = ((int)((audio.playBarPosition()) * 1024)) + 12 - offset;
+            //button6.Text = audio.analyser.currentVolume(audio.audioFileReader.Position).ToString();
+            //DMX.setDmx(4, (byte)audio.analyser.currentVolume(audio.audioFileReader.Position), true);
+            if (audio.analyser.currentVolume(audio.getPosition()) > 120)
+            {
+                DMX.setDmx(5, 255, false);
+                DMX.setDmx(6, 255, false);
+                DMX.setDmx(7, 50, true);
+            }
+            else
+            {
+                DMX.setDmx(7, 0, true);
+            }
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -97,6 +111,21 @@ namespace Tripper
             float amt = (float)(e.NewValue) / 100.0f;
             offset = audio.getOffset(amt);
             pictureBox1.Left = 12 - offset;
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            DMX.setDmx(2, 44, true);
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            DMX.setDmx(7, 0, true);
         }
     }
 }

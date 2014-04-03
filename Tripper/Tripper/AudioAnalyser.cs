@@ -20,9 +20,17 @@ namespace Tripper
         int currentMax = 0, currentMin = 0;
         AudioFileReader audioFileReader;
         public int width;
+        int[] values;
 
         public AudioAnalyser()
         {
+        }
+
+        public int currentVolume(long position) {
+            position -= 75000;
+            position = Math.Max(0, position);
+            long at = position / (_samplingLength * 4);
+            return values[at];
         }
 
         public int analyse(int samplingLength, string filename)
@@ -52,9 +60,10 @@ namespace Tripper
         public void clear()
         {
             width = (int)(audioFileReader.Length / (long)(_samplingLength * 4)) + 1;
-            rendering = new Bitmap(width, 512);
+            rendering = new Bitmap(width, 256);
+            values = new int[width];
             graphics = Graphics.FromImage(rendering);
-            graphics.DrawLine(System.Drawing.Pens.Red, new Point(0, 256), new Point(width, 256));
+            graphics.DrawLine(System.Drawing.Pens.Red, new Point(0, 128), new Point(width, 128));
             currentMax = 0;
             currentMin = 0;
             sampleCount = 0;
@@ -63,8 +72,8 @@ namespace Tripper
 
         public void addSample(float value)
         {
-            currentMax = Math.Max((int)(value * 256), currentMax);
-            currentMin = Math.Min((int)(value * 256), currentMin);
+            currentMax = Math.Max((int)(value * 200), currentMax);
+            currentMin = Math.Min((int)(value * 200), currentMin);
 
             if (++valueCount >= _samplingLength)
             {
@@ -74,7 +83,8 @@ namespace Tripper
 
         public void renderSample()
         {
-            graphics.DrawLine(System.Drawing.Pens.Black, new Point(sampleCount, 256 - currentMax), new Point(sampleCount, 256 - currentMin));
+            graphics.DrawLine(System.Drawing.Pens.Black, new Point(sampleCount, (256 - currentMax) / 2), new Point(sampleCount, (256 - currentMin) / 2));
+            values[sampleCount] = currentMax;
             valueCount %= _samplingLength;
             sampleCount++;
             graphics.Flush();

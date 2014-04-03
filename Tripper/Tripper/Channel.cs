@@ -21,6 +21,11 @@ namespace Tripper
             _position += samples;
         }
 
+        float getValue()
+        {
+            return 0.5f;
+        }
+
         void setPosition(long position)
         {
             _position = position;
