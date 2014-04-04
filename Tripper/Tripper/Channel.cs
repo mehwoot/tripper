@@ -27,7 +27,7 @@ namespace Tripper
         Value nextValue;
         float delta;
         int at;
-        int dmxChannel;
+        public int dmxChannel;
 
         public Channel(int _dmxChannel)
         {

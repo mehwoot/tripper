@@ -8,6 +8,7 @@ using NAudio.Wave;
 using System.Data;
 using System.Drawing;
 using System.Diagnostics;
+using System.Windows.Forms;
 
 namespace Tripper
 {
@@ -21,6 +22,8 @@ namespace Tripper
         string filename;
         public bool playing;
         Stopwatch stopwatch;
+        List<PictureBox> pictureBoxes;
+        List<ChannelAnalyser> channels;
 
         public void setPlayPosition(int position)
         {
@@ -44,9 +47,9 @@ namespace Tripper
             return (stopwatch.ElapsedMilliseconds * 88 * 4) + 105000;
         }
 
-        public Audio()
+        public Audio(string name)
         {
-            filename = "test.mp3";
+            filename = name + ".mp3";
             waveOutDevice = new WaveOut();
             audioFileReader = new AudioFileReader(filename);
 
@@ -55,11 +58,43 @@ namespace Tripper
             analyser = new AudioAnalyser();
             totalRead = analyser.analyse(4096, filename);
 
-            waveOutDevice.Play();
             stopwatch = new Stopwatch();
-            stopwatch.Start();
-            playing = true;
+            //play();
 
+            pictureBoxes = new List<PictureBox>();
+            channels = new List<ChannelAnalyser>();
+            loadChannels(name);
+        }
+
+        public void loadChannels(string name)
+        {
+            System.IO.StreamReader file = new System.IO.StreamReader(name + ".channel");
+            string line = file.ReadLine();
+            int i = 0;
+            while (line == "channel") {
+
+                Channel channel = new Channel(file);
+
+                PictureBox pictureBox = new PictureBox();
+                ((System.ComponentModel.ISupportInitialize)(pictureBox)).BeginInit();
+                pictureBox.Location = new System.Drawing.Point(12, (i * 136) + 305);
+                i++;
+                pictureBox.Name = "pictureBoxChannel" + i.ToString();
+                pictureBox.Size = new System.Drawing.Size(1024, 128);
+                Form1.get.Controls.Add(pictureBox);
+                ((System.ComponentModel.ISupportInitialize)(pictureBox)).EndInit();
+
+                ChannelAnalyser analyser2 = new ChannelAnalyser(channel, pictureBox);
+                analyser2.setSamplingRate(analyser._samplingLength, audioFileReader.Length);
+                analyser2.analyse();
+                pictureBoxes.Insert(0, pictureBox);
+                channels.Insert(0, analyser2);
+
+                line = file.ReadLine();
+            }
+            file.Close();
+
+            Form1.get.ResumeLayout(true);
         }
 
         public void zoom(bool zoomOut)
@@ -71,6 +106,7 @@ namespace Tripper
         {
             waveOutDevice.Play();
             playing = true;
+            stopwatch.Start();
         }
 
         public void pause()

@@ -21,6 +21,7 @@ namespace Tripper
         AudioFileReader audioFileReader;
         public int width;
         int[] values;
+        public const int granularity = 32;
 
         public AudioAnalyser()
         {
@@ -48,7 +49,7 @@ namespace Tripper
                 buffer = new float[1024];
                 read = audioFileReader.Read(buffer, 0, 1024);
                 totalRead += read;
-                for (int i = 0; i < read; i++)
+                for (int i = 0; i < read; i += granularity)
                 {
                     addSample(buffer[i]);
                 }
@@ -76,7 +77,8 @@ namespace Tripper
             currentMax = Math.Max((int)(value * 200), currentMax);
             currentMin = Math.Min((int)(value * 200), currentMin);
 
-            if (++valueCount >= _samplingLength)
+            valueCount += granularity;
+            if (valueCount >= _samplingLength)
             {
                 renderSample();
             }
