@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,6 +39,37 @@ namespace Tripper
             delta = 0.0f;
             at = 0;
             dmxChannel = _dmxChannel;
+        }
+
+        public Channel(StreamReader file)
+        {
+            valuesByKey = new Dictionary<long, Value>();
+            values = new List<Value>();
+            string line;
+            line = file.ReadLine();
+            dmxChannel = int.Parse(line);
+            int valuesCount = int.Parse(file.ReadLine());
+            for (int i = 0; i < valuesCount; i++)
+            {
+                long key;
+                float value;
+                key = long.Parse(file.ReadLine());
+                value = float.Parse(file.ReadLine());
+                setValue(key, value);
+            }
+            reset();
+        }
+
+        public void writeToFile(StreamWriter file)
+        {
+            file.WriteLine("channel");
+            file.WriteLine(dmxChannel);
+            file.WriteLine(values.Count());
+            for (int i = 0; i < values.Count(); i++)
+            {
+                file.WriteLine(values[i].key);
+                file.WriteLine(values[i].value);
+            }
         }
 
         public void step(int samples)
@@ -95,12 +127,25 @@ namespace Tripper
             previousValue = values[0];
             at = 0;
             nextValue = values[0];
+            delta = 0.0f;
+        }
+
+        public void removeValue(long key)
+        {
+            if (valuesByKey.ContainsKey(key))
+            {
+                Value value = valuesByKey[key];
+                valuesByKey.Remove(key);
+                values.Remove(value);
+            }
         }
 
         public void setValue(long key, float _value)
         {
+            /* Clamp between 0 and 1 */
             _value = Math.Min(_value, 1.0f);
             _value = Math.Max(_value, 0.0f);
+            /* If we already have a value for this key, update the key */
             if (valuesByKey.ContainsKey(key))
             {
                 int at = 0;
@@ -112,7 +157,7 @@ namespace Tripper
                 valuesByKey[key] = value;
                 values[at] = value;
             }
-            else
+            else /* Otherwise make a new one */
             {
                 Value value = new Value(key, _value);
                 valuesByKey[key] = value;

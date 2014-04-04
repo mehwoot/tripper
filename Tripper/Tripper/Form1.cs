@@ -138,9 +138,19 @@ namespace Tripper
             analyser.setSamplingRate(audio.analyser._samplingLength, audio.audioFileReader.Length);
             analyser.analyse();
 
-            ChannelAnalyser analyser2 = new ChannelAnalyser(new Channel(2), pictureBox3);
+            System.IO.StreamReader file = new System.IO.StreamReader("test.txt");
+            file.ReadLine();
+            ChannelAnalyser analyser2 = new ChannelAnalyser(new Channel(file), pictureBox3);
             analyser2.setSamplingRate(audio.analyser._samplingLength / 2, audio.audioFileReader.Length);
             analyser2.analyse();
+            file.Close();
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            System.IO.StreamWriter file = new System.IO.StreamWriter("test.txt");
+            analyser.writeToFile(file);
+            file.Close();
         }
     }
 }
