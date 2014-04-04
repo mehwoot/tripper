@@ -15,7 +15,7 @@ namespace Tripper
         public static void setDmx(int channel, byte value, bool send = true)
         {
             int _send = send ? 1 : 0;
-            main(_send, channel, value);
+            //main(_send, channel, value); 
         }
 
         public static void initLazer()

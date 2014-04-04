@@ -29,7 +29,8 @@ namespace Tripper
         public int currentVolume(long position) {
             position -= 75000;
             position = Math.Max(0, position);
-            long at = position / (_samplingLength * 4);
+            long at = (position / (_samplingLength * 4));
+            at = Math.Min(values.Count() - 1, at);
             return values[at];
         }
 

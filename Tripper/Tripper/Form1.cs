@@ -20,6 +20,9 @@ namespace Tripper
         Bitmap bmp;
         int offset;
 
+        Channel channel;
+        ChannelAnalyser analyser;
+
 
         public Form1()
         {
@@ -126,6 +129,18 @@ namespace Tripper
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             DMX.setDmx(7, 0, true);
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            channel = new Channel(1);
+            analyser = new ChannelAnalyser(channel, pictureBox2);
+            analyser.setSamplingRate(audio.analyser._samplingLength, audio.audioFileReader.Length);
+            analyser.analyse();
+
+            ChannelAnalyser analyser2 = new ChannelAnalyser(new Channel(2), pictureBox3);
+            analyser2.setSamplingRate(audio.analyser._samplingLength / 2, audio.audioFileReader.Length);
+            analyser2.analyse();
         }
     }
 }
