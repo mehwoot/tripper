@@ -27,6 +27,7 @@ namespace Tripper
         public List<ChannelAnalyser> channels;
         long previousStepTimestep;
         public bool sendingDMX;
+        string _name;
 
         public void setPlayPosition(int position)
         {
@@ -68,6 +69,7 @@ namespace Tripper
 
         public Audio(string name)
         {
+            _name = name;
             filename = name + ".mp3";
             waveOutDevice = new WaveOut();
             audioFileReader = new AudioFileReader(filename);
@@ -103,13 +105,44 @@ namespace Tripper
                 ChannelAnalyser analyser2 = new ChannelAnalyser(channel, pictureBox);
                 analyser2.setSamplingRate(analyser._samplingLength, audioFileReader.Length);
                 analyser2.analyse();
-                pictureBoxes.Insert(0, pictureBox);
-                channels.Insert(0, analyser2);
-                Form1.get.ResumeLayout(true);
-                pictureBox.Visible = true;
+                pictureBoxes.Add(pictureBox);
+                channels.Add(analyser2);
 
             }
             Form1.get.ResumeLayout(true);
+        }
+
+        public void saveChannels()
+        {
+            System.IO.StreamWriter file = new System.IO.StreamWriter(_name + ".channel");
+            foreach (ChannelAnalyser channel in channels)
+            {
+                channel.writeToFile(file);
+            }
+            file.Close();
+        }
+
+        public void addChannel(Channel channel)
+        {
+
+            PictureBox pictureBox = new PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(pictureBox)).BeginInit();
+            pictureBox.Location = new System.Drawing.Point(12, (channels.Count * 136) + 305);
+            pictureBox.Name = "pictureBoxChannel" + channels.Count.ToString();
+            pictureBox.Size = new System.Drawing.Size(1024, 128);
+            Form1.get.Controls.Add(pictureBox);
+            ((System.ComponentModel.ISupportInitialize)(pictureBox)).EndInit();
+
+            ChannelAnalyser analyser2 = new ChannelAnalyser(channel, pictureBox);
+            analyser2.setSamplingRate(analyser._samplingLength, audioFileReader.Length);
+            analyser2.analyse();
+
+            pictureBoxes.Add(pictureBox);
+            channels.Add(analyser2);
+            pictureBox.Visible = true;
+
+            Form1.get.ResumeLayout(true);
+
         }
 
         public void loadChannels(string name)
@@ -125,31 +158,11 @@ namespace Tripper
                 return;
             }
             string line = file.ReadLine();
-            int i = 0;
             while (line == "channel") {
-
                 Channel channel = new Channel(file);
-
-                PictureBox pictureBox = new PictureBox();
-                ((System.ComponentModel.ISupportInitialize)(pictureBox)).BeginInit();
-                pictureBox.Location = new System.Drawing.Point(12, (i * 136) + 305);
-                i++;
-                pictureBox.Name = "pictureBoxChannel" + i.ToString();
-                pictureBox.Size = new System.Drawing.Size(1024, 128);
-                Form1.get.Controls.Add(pictureBox);
-                ((System.ComponentModel.ISupportInitialize)(pictureBox)).EndInit();
-
-                ChannelAnalyser analyser2 = new ChannelAnalyser(channel, pictureBox);
-                analyser2.setSamplingRate(analyser._samplingLength, audioFileReader.Length);
-                analyser2.analyse();
-                pictureBoxes.Insert(0, pictureBox);
-                channels.Insert(0, analyser2);
-
-                line = file.ReadLine();
+                addChannel(channel);
             }
             file.Close();
-
-            Form1.get.ResumeLayout(true);
         }
 
         public void zoom(bool zoomOut)
@@ -193,8 +206,11 @@ namespace Tripper
                 if (playing)
                 {
                     stepChannels();
-                    DMX.setDmx(4, (byte)(channels[0]._channel.getValue() * 255), true);
-                    //Form1.get.debug(stopwatch.ElapsedMilliseconds.ToString());
+                    foreach (ChannelAnalyser channelAnalyser in channels)
+                    {
+                        DMX.setDmx(channelAnalyser._channel.dmxChannel, (byte)(channelAnalyser._channel.getValue() * 255), false);
+                    }
+                    DMX.setDmx(0, 0, true);
                     Thread.Sleep(1);
                 }
             }

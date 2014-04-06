@@ -119,11 +119,6 @@ namespace Tripper
             timer1.Enabled = false;
         }
 
-        private void button6_Click(object sender, EventArgs e)
-        {
-            DMX.setDmx(2, 44, true);
-        }
-
         private void Form1_Load(object sender, EventArgs e)
         {
 
@@ -131,6 +126,7 @@ namespace Tripper
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
+            DMX.setDmx(1, 0, true);
             DMX.setDmx(7, 0, true);
             if (dmxThread != null)
             {
@@ -145,9 +141,7 @@ namespace Tripper
 
         private void button8_Click(object sender, EventArgs e)
         {
-            System.IO.StreamWriter file = new System.IO.StreamWriter("test.channel");
-            audio.channels[0].writeToFile(file);
-            file.Close();
+            audio.saveChannels();
         }
 
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
