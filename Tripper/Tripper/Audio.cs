@@ -9,6 +9,7 @@ using System.Data;
 using System.Drawing;
 using System.Diagnostics;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace Tripper
 {
@@ -23,7 +24,9 @@ namespace Tripper
         public bool playing;
         Stopwatch stopwatch;
         List<PictureBox> pictureBoxes;
-        List<ChannelAnalyser> channels;
+        public List<ChannelAnalyser> channels;
+        long previousStepTimestep;
+        public bool sendingDMX;
 
         public void setPlayPosition(int position)
         {
@@ -47,6 +50,22 @@ namespace Tripper
             return (stopwatch.ElapsedMilliseconds * 88 * 4) + 105000;
         }
 
+        public long getSamplePosition()
+        {
+            return (stopwatch.ElapsedMilliseconds * 88);// +105000;
+        }
+
+        public void stepChannels()
+        {
+            long samplePosition = getSamplePosition();
+            long stepDistance = samplePosition - previousStepTimestep;
+            previousStepTimestep = samplePosition;
+            for (int i = 0; i < channels.Count(); i++)
+            {
+                channels[i]._channel.step((int)stepDistance);
+            }
+        }
+
         public Audio(string name)
         {
             filename = name + ".mp3";
@@ -56,7 +75,7 @@ namespace Tripper
             waveOutDevice.Init(audioFileReader);
 
             analyser = new AudioAnalyser();
-            totalRead = analyser.analyse(4096, filename);
+            totalRead = analyser.analyse(1024, filename);
 
             stopwatch = new Stopwatch();
             //play();
@@ -66,9 +85,43 @@ namespace Tripper
             loadChannels(name);
         }
 
+        public void createChannels()
+        {
+            for (int i = 4; i < 5; i++)
+            {
+                Channel channel = new Channel(i);
+
+                PictureBox pictureBox = new PictureBox();
+                ((System.ComponentModel.ISupportInitialize)(pictureBox)).BeginInit();
+                pictureBox.Location = new System.Drawing.Point(12, ((i - 4) * 136) + 305);
+                i++;
+                pictureBox.Name = "pictureBoxChannel" + i.ToString();
+                pictureBox.Size = new System.Drawing.Size(1024, 128);
+                Form1.get.Controls.Add(pictureBox);
+                ((System.ComponentModel.ISupportInitialize)(pictureBox)).EndInit();
+
+                ChannelAnalyser analyser2 = new ChannelAnalyser(channel, pictureBox);
+                analyser2.setSamplingRate(analyser._samplingLength, audioFileReader.Length);
+                analyser2.analyse();
+                pictureBoxes.Insert(0, pictureBox);
+                channels.Insert(0, analyser2);
+
+            }
+            Form1.get.ResumeLayout(true);
+        }
+
         public void loadChannels(string name)
         {
-            System.IO.StreamReader file = new System.IO.StreamReader(name + ".channel");
+            System.IO.StreamReader file;
+            try
+            {
+                file = new System.IO.StreamReader(name + ".channel");
+            }
+            catch (Exception e)
+            {
+                createChannels();
+                return;
+            }
             string line = file.ReadLine();
             int i = 0;
             while (line == "channel") {
@@ -106,7 +159,18 @@ namespace Tripper
         {
             waveOutDevice.Play();
             playing = true;
+            stopwatch.Reset();
             stopwatch.Start();
+            previousStepTimestep = 0;
+            resetChannels();
+        }
+
+        public void resetChannels()
+        {
+            for (int i = 0; i < channels.Count(); i++)
+            {
+                channels[i]._channel.setPosition(0);
+            }
         }
 
         public void pause()
@@ -118,6 +182,20 @@ namespace Tripper
         public int getOffset(float amt)
         {
             return (int)(analyser.width * amt);
+        }
+
+        public void runChannels()
+        {
+            while (true)
+            {
+                if (playing)
+                {
+                    stepChannels();
+                    DMX.setDmx(4, (byte)(channels[0]._channel.getValue() * 255), true);
+                    //Form1.get.debug(stopwatch.ElapsedMilliseconds.ToString());
+                    Thread.Sleep(5);
+                }
+            }
         }
 
         ~Audio()

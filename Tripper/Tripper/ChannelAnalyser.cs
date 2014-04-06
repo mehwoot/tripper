@@ -13,14 +13,14 @@ namespace Tripper
     {
         public System.Drawing.Bitmap rendering;
         System.Drawing.Graphics graphics;
-        Channel _channel;
+        public Channel _channel;
         int _samplingLength;
         long _length;
         public int width;
         PictureBox picture;
         int quantise;
 
-        public ChannelAnalyser(Channel channel, PictureBox _picture, int _quantise = 16)
+        public ChannelAnalyser(Channel channel, PictureBox _picture, int _quantise = 8)
         {
             _channel = channel;
             picture = _picture;

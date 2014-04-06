@@ -11,27 +11,40 @@ using NAudio;
 using NAudio.Wave;
 using System.IO;
 using System.Reflection;
+using System.Diagnostics;
+using System.Threading;
 
 namespace Tripper
 {
     public partial class Form1 : Form
     {
         Audio audio;
-        System.Drawing.Rectangle rectangle;
-        System.Drawing.Graphics graphics;
-        Bitmap bmp;
-        int offset;
-
-        Channel channel;
-        ChannelAnalyser analyser;
 
         public static Form1 get;
+        public static Form2 debugForm;
+        Stopwatch stopwatch;
+        List<string> debugItems;
+        Object debugLock;
+        Thread dmxThread;
 
-        public Form1()
+        public Form1(Form2 _debugForm)
         {
+            debugForm = _debugForm;
             get = this;
             InitializeComponent();
             DMX.initLazer();
+            debugForm.Visible = true;
+            stopwatch = new Stopwatch();
+            debugItems = new List<string>();
+            debugLock = new Object();
+        }
+
+        public void debug(string item)
+        {
+            lock (debugLock)
+            {
+                debugItems.Add(item);
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -54,18 +67,16 @@ namespace Tripper
         private void timer1_Tick(object sender, EventArgs e)
         {
             currentPosition.Left = ((int)((audio.playBarPosition()) * 1024)) + 12;// -offset;
-            //button6.Text = audio.analyser.currentVolume(audio.audioFileReader.Position).ToString();
-            //DMX.setDmx(4, (byte)audio.analyser.currentVolume(audio.audioFileReader.Position), true);
-            if (audio.analyser.currentVolume(audio.getPosition()) > 120)
+            lock (debugLock)
             {
-                DMX.setDmx(5, 255, false);
-                DMX.setDmx(6, 255, false);
-                DMX.setDmx(7, 50, true);
+                foreach (string item in debugItems)
+                {
+                    debugForm.listBox1.Items.Add(item);
+                    debugForm.listBox1.SetSelected(debugForm.listBox1.Items.Count - 1, true);
+                }
+                debugItems.Clear();
             }
-            else
-            {
-                DMX.setDmx(7, 0, true);
-            }
+            
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -99,12 +110,13 @@ namespace Tripper
 
         private void button4_Click(object sender, EventArgs e)
         {
-            audio.play();
+            audio.play(); 
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
             audio.pause();
+            timer1.Enabled = false;
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -120,6 +132,10 @@ namespace Tripper
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             DMX.setDmx(7, 0, true);
+            if (dmxThread != null)
+            {
+                dmxThread.Abort();
+            }
         }
 
         private void button7_Click(object sender, EventArgs e)
@@ -130,7 +146,7 @@ namespace Tripper
         private void button8_Click(object sender, EventArgs e)
         {
             System.IO.StreamWriter file = new System.IO.StreamWriter("test.channel");
-            analyser.writeToFile(file);
+            audio.channels[0].writeToFile(file);
             file.Close();
         }
 
@@ -143,6 +159,9 @@ namespace Tripper
                 pictureBox1.ClientSize = new Size(10000, 256);
                 pictureBox1.Image = audio.analyser.rendering;
                 timer1.Enabled = true;
+                stopwatch.Start();
+                dmxThread = new Thread(new ThreadStart(audio.runChannels));
+                dmxThread.Start();
             }
         }
     }

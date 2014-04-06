@@ -118,7 +118,8 @@ namespace Tripper
 
         public void setPosition(long position)
         {
-            _position = position;
+            // Can't jump to position at the moment
+            reset();
         }
 
         public void reset()
@@ -126,7 +127,14 @@ namespace Tripper
             _position = 0;
             previousValue = values[0];
             at = 0;
-            nextValue = values[0];
+            if (values.Count() > 1)
+            {
+                nextValue = values[1];
+            }
+            else
+            {
+                nextValue = values[0];
+            }
             delta = 0.0f;
         }
 
