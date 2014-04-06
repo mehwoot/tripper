@@ -87,16 +87,16 @@ namespace Tripper
 
         public void createChannels()
         {
-            for (int i = 4; i < 5; i++)
+            for (int i = 4; i <= 10; i++)
             {
                 Channel channel = new Channel(i);
 
                 PictureBox pictureBox = new PictureBox();
                 ((System.ComponentModel.ISupportInitialize)(pictureBox)).BeginInit();
                 pictureBox.Location = new System.Drawing.Point(12, ((i - 4) * 136) + 305);
-                i++;
                 pictureBox.Name = "pictureBoxChannel" + i.ToString();
                 pictureBox.Size = new System.Drawing.Size(1024, 128);
+                pictureBox.Visible = true;
                 Form1.get.Controls.Add(pictureBox);
                 ((System.ComponentModel.ISupportInitialize)(pictureBox)).EndInit();
 
@@ -105,6 +105,8 @@ namespace Tripper
                 analyser2.analyse();
                 pictureBoxes.Insert(0, pictureBox);
                 channels.Insert(0, analyser2);
+                Form1.get.ResumeLayout(true);
+                pictureBox.Visible = true;
 
             }
             Form1.get.ResumeLayout(true);
@@ -193,7 +195,7 @@ namespace Tripper
                     stepChannels();
                     DMX.setDmx(4, (byte)(channels[0]._channel.getValue() * 255), true);
                     //Form1.get.debug(stopwatch.ElapsedMilliseconds.ToString());
-                    Thread.Sleep(5);
+                    Thread.Sleep(1);
                 }
             }
         }

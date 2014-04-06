@@ -59,7 +59,7 @@ namespace Tripper
                 graphics.DrawLine(System.Drawing.Pens.Green, new Point(i, 0), new Point(i, 128));
             }
 
-                picture.ClientSize = new Size(width, 512);
+                picture.ClientSize = new Size(width, 128);
             picture.Image = rendering;
         }
 
