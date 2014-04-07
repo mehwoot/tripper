@@ -110,7 +110,8 @@ namespace Tripper
 
         private void button4_Click(object sender, EventArgs e)
         {
-            audio.play(); 
+            audio.play();
+            timer1.Enabled = true;
         }
 
         private void button5_Click(object sender, EventArgs e)

@@ -118,8 +118,29 @@ namespace Tripper
 
         public void setPosition(long position)
         {
-            // Can't jump to position at the moment
-            reset();
+            _position = position;
+            previousValue = values.First();
+            nextValue = values.First();
+            at = 0;
+            while (nextValue.key < position && at < (values.Count - 1))
+            {
+                previousValue = nextValue;
+                nextValue = values[at + 1];
+                at++;
+            }
+            if (position > nextValue.key)
+            {
+                previousValue = nextValue;
+            }
+            if (previousValue != nextValue)
+            {
+                delta = (float)(position - previousValue.key) / ((float)(nextValue.key - previousValue.key));
+            }
+            else
+            {
+                delta = 0.0f;
+            }
+
         }
 
         public void reset()
