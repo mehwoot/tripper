@@ -132,6 +132,11 @@ namespace Tripper
             addChannel(channel);
         }
 
+        public Panel constructChannelPanel()
+        {
+            return null;
+        }
+
         public void addChannel(Channel channel)
         {
 
