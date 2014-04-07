@@ -161,6 +161,7 @@ namespace Tripper
             while (line == "channel") {
                 Channel channel = new Channel(file);
                 addChannel(channel);
+                line = file.ReadLine();
             }
             file.Close();
         }
