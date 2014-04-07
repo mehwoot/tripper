@@ -39,6 +39,10 @@ namespace Tripper
             {
                 waveOutDevice.Play();
             }
+            foreach (ChannelAnalyser channel in channels)
+            {
+                channel._channel.setPosition(position * analyser._samplingLength);
+            }
         }
 
         public float playBarPosition()
@@ -122,6 +126,12 @@ namespace Tripper
             file.Close();
         }
 
+        public void addChannel()
+        {
+            Channel channel = new Channel(100);
+            addChannel(channel);
+        }
+
         public void addChannel(Channel channel)
         {
 
@@ -130,7 +140,8 @@ namespace Tripper
             pictureBox.Location = new System.Drawing.Point(12, (channels.Count * 136) + 305);
             pictureBox.Name = "pictureBoxChannel" + channels.Count.ToString();
             pictureBox.Size = new System.Drawing.Size(1024, 128);
-            Form1.get.Controls.Add(pictureBox);
+            Form1.get.panel1.Controls.Add(pictureBox);
+            //Form1.get.Controls.Add(pictureBox);
             ((System.ComponentModel.ISupportInitialize)(pictureBox)).EndInit();
 
             ChannelAnalyser analyser2 = new ChannelAnalyser(channel, pictureBox);
@@ -211,8 +222,9 @@ namespace Tripper
                     {
                         DMX.setDmx(channelAnalyser._channel.dmxChannel, (byte)(channelAnalyser._channel.getValue() * 255), false);
                     }
+                    Form1.get.debug(channels[0]._channel.getValue().ToString());
                     DMX.setDmx(0, 0, true);
-                    Thread.Sleep(1);
+                    Thread.Sleep(10);
                 }
             }
         }

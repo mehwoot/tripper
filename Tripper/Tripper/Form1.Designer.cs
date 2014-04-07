@@ -40,8 +40,11 @@
             this.button8 = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.button6 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.currentPosition)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -63,7 +66,7 @@
             // 
             this.currentPosition.BackColor = System.Drawing.SystemColors.MenuHighlight;
             this.currentPosition.InitialImage = ((System.Drawing.Image)(resources.GetObject("currentPosition.InitialImage")));
-            this.currentPosition.Location = new System.Drawing.Point(12, 41);
+            this.currentPosition.Location = new System.Drawing.Point(12, 21);
             this.currentPosition.Name = "currentPosition";
             this.currentPosition.Size = new System.Drawing.Size(5, 244);
             this.currentPosition.TabIndex = 4;
@@ -121,7 +124,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(12, 41);
+            this.pictureBox1.Location = new System.Drawing.Point(12, 21);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(1024, 244);
             this.pictureBox1.TabIndex = 2;
@@ -133,19 +136,42 @@
             this.openFileDialog1.FileName = "openFileDialog1";
             this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
             // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.AutoScroll = true;
+            this.panel1.Controls.Add(this.pictureBox1);
+            this.panel1.Controls.Add(this.currentPosition);
+            this.panel1.Location = new System.Drawing.Point(93, 41);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(985, 866);
+            this.panel1.TabIndex = 17;
+            // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(524, 12);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(99, 23);
+            this.button6.TabIndex = 18;
+            this.button6.Text = "Add Channel";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(1087, 808);
+            this.ClientSize = new System.Drawing.Size(1087, 908);
+            this.Controls.Add(this.button6);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.button8);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.currentPosition);
-            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.button1);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -153,6 +179,7 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.currentPosition)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -169,6 +196,8 @@
         private System.Windows.Forms.Button button8;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        public System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button button6;
     }
 }
 

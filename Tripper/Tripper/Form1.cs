@@ -86,7 +86,7 @@ namespace Tripper
 
         private void setAnalysisImage()
         {
-            pictureBox1.ClientSize = new Size(audio.analyser.width, 512);
+            pictureBox1.ClientSize = new Size(audio.analyser.width, 256);
             pictureBox1.Image = audio.analyser.rendering;
         }
 
@@ -158,6 +158,11 @@ namespace Tripper
                 dmxThread = new Thread(new ThreadStart(audio.runChannels));
                 dmxThread.Start();
             }
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            audio.addChannel();
         }
     }
 }
