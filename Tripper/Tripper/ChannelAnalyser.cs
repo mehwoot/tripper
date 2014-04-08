@@ -19,13 +19,15 @@ namespace Tripper
         public int width;
         PictureBox picture;
         int quantise;
+        int verticalQuantise;
 
-        public ChannelAnalyser(Channel channel, PictureBox _picture, int _quantise = 8)
+        public ChannelAnalyser(Channel channel, PictureBox _picture, int _quantise = 8, int _verticalQuantise = 1)
         {
             _channel = channel;
             picture = _picture;
             picture.Click += pictureClick;
             quantise = _quantise;
+            verticalQuantise = _verticalQuantise;
         }
 
         public void setSamplingRate(int samplingLength, long length)
@@ -41,6 +43,21 @@ namespace Tripper
             rendering = new Bitmap(width, 128);
             graphics = Graphics.FromImage(rendering);
             graphics.DrawLine(System.Drawing.Pens.Red, new Point(0, 64), new Point(width, 64));
+            if (verticalQuantise != 1)
+            {
+                int at = 0;
+                while (at <= 128)
+                {
+                    graphics.DrawLine(System.Drawing.Pens.Blue, new Point(0, at), new Point(width, at));
+                    at += verticalQuantise;
+                }
+            }
+        }
+
+        public void setVerticalQuantise(int _verticalQuantise)
+        {
+            verticalQuantise = _verticalQuantise;
+            analyse();
         }
 
         public void analyse()
@@ -70,9 +87,16 @@ namespace Tripper
             /* Snap to region */
             x -= (x % quantise) - quantise + (quantise / 2);
             x *= _samplingLength;
+
+            int y = evt.Y;
+            if (verticalQuantise != 1)
+            {
+                y = (y - (y % verticalQuantise)) + (verticalQuantise / 2);
+            }
+
             if (evt.Button == MouseButtons.Left)
             {
-                _channel.setValue(x, 1.0f - ((float)evt.Y) / 128.0f);
+                _channel.setValue(x, 1.0f - y / 128.0f);
             }
             else
             {

@@ -26,6 +26,7 @@ namespace Tripper
         List<string> debugItems;
         Object debugLock;
         Thread dmxThread;
+        public bool altDown;
 
         public Form1(Form2 _debugForm)
         {
@@ -60,8 +61,11 @@ namespace Tripper
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            System.Windows.Forms.MouseEventArgs evt = (System.Windows.Forms.MouseEventArgs)e;
-            audio.setPlayPosition(evt.X);
+            if (!altDown)
+            {
+                System.Windows.Forms.MouseEventArgs evt = (System.Windows.Forms.MouseEventArgs)e;
+                audio.setPlayPosition(evt.X);
+            }
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -162,7 +166,10 @@ namespace Tripper
 
         private void button6_Click(object sender, EventArgs e)
         {
-            audio.addChannel();
+            if (audio != null)
+            {
+                audio.addChannel();
+            }
         }
 
         private void Form1_Scroll(object sender, ScrollEventArgs e)
@@ -177,6 +184,10 @@ namespace Tripper
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
+            if (textBox1.Text.ToCharArray().Last() == '.')
+            {
+                return;
+            }
             try
             {
                 audio.setBPM(float.Parse(textBox1.Text));
@@ -191,9 +202,76 @@ namespace Tripper
 
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
+            if (textBox2.Text.ToCharArray().Last() == '.')
+            {
+                return;
+            }
             try
             {
                 audio.setCurrentBpm(float.Parse(textBox2.Text));
+            }
+            catch (Exception e1) { }
+        }
+
+        private void Form1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (audio != null)
+            {
+                if (e.KeyChar == '=')
+                {
+                    audio.nudge(100);
+                }
+                if (e.KeyChar == '-')
+                {
+                    audio.nudge(-100);
+                }
+            }
+        }
+
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Alt)
+            {
+                altDown = true;
+            }
+        }
+
+        private void Form1_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (!e.Alt)
+            {
+                altDown = false;
+            }
+        }
+
+        private void button7_Click_1(object sender, EventArgs e)
+        {
+            try
+            {
+                float bpm = float.Parse(textBox2.Text);
+                bpm += 1.0f;
+                textBox2.Text = bpm.ToString();
+            }
+            catch (Exception e1) { }
+        }
+
+        private void button9_Click(object sender, EventArgs e) {
+            try
+            {
+                float bpm = float.Parse(textBox2.Text);
+                bpm -= 1.0f;
+                textBox2.Text = bpm.ToString();
+            }
+            catch (Exception e1) { }
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                float bpm = float.Parse(textBox2.Text);
+                int b = (int)bpm;
+                textBox2.Text = b.ToString();
             }
             catch (Exception e1) { }
         }

@@ -14,9 +14,11 @@ namespace Tripper
         public Label title;
         public Label name;
         public TextBox quantiseText;
+        public ChannelAnalyser _channelAnalyser;
 
-        public InfoPanel(int y)
+        public InfoPanel(int y, ChannelAnalyser channelAnalyser)
         {
+            _channelAnalyser = channelAnalyser;
             panel = new System.Windows.Forms.Panel();
             panel.Location = new System.Drawing.Point(10, y);
             panel.Name = "panel" + y.ToString();
@@ -43,6 +45,7 @@ namespace Tripper
             quantiseText.Location = new System.Drawing.Point(40, 90);
             quantiseText.Name = "textBox" + y.ToString();
             quantiseText.Size = new System.Drawing.Size(20, 20);
+            quantiseText.TextChanged += quantiseTextChanged;
 
             panel.Controls.Add(title);
             panel.Controls.Add(name);
@@ -51,6 +54,15 @@ namespace Tripper
 
 
             Form1.get.Controls.Add(panel);
+        }
+
+        public void quantiseTextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                _channelAnalyser.setVerticalQuantise(int.Parse(quantiseText.Text));
+            }
+            catch (Exception e2) { }
         }
 
         public void setDMXChannel(int channel)

@@ -22,6 +22,7 @@ namespace Tripper
         public int width;
         int[] values;
         public const int granularity = 32;
+        List<Marker> markers;
 
         public AudioAnalyser()
         {

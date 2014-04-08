@@ -46,6 +46,9 @@
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.button7 = new System.Windows.Forms.Button();
+            this.button9 = new System.Windows.Forms.Button();
+            this.button10 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.currentPosition)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
@@ -70,7 +73,7 @@
             // 
             this.currentPosition.BackColor = System.Drawing.SystemColors.MenuHighlight;
             this.currentPosition.InitialImage = ((System.Drawing.Image)(resources.GetObject("currentPosition.InitialImage")));
-            this.currentPosition.Location = new System.Drawing.Point(23, 56);
+            this.currentPosition.Location = new System.Drawing.Point(85, 56);
             this.currentPosition.Name = "currentPosition";
             this.currentPosition.Size = new System.Drawing.Size(5, 128);
             this.currentPosition.TabIndex = 24;
@@ -147,9 +150,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.AutoScroll = true;
             this.panel1.Controls.Add(this.pictureBox1);
-            this.panel1.Location = new System.Drawing.Point(93, 41);
+            this.panel1.Location = new System.Drawing.Point(93, 70);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(985, 866);
+            this.panel1.Size = new System.Drawing.Size(985, 849);
             this.panel1.TabIndex = 17;
             this.panel1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.panel1_Scroll);
             // 
@@ -198,12 +201,45 @@
             this.label2.TabIndex = 22;
             this.label2.Text = "Song BPM";
             // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(1027, 38);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(22, 23);
+            this.button7.TabIndex = 25;
+            this.button7.Text = "+";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click_1);
+            // 
+            // button9
+            // 
+            this.button9.Location = new System.Drawing.Point(1053, 38);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(22, 23);
+            this.button9.TabIndex = 26;
+            this.button9.Text = "-";
+            this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
+            // 
+            // button10
+            // 
+            this.button10.Location = new System.Drawing.Point(994, 38);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(22, 23);
+            this.button10.TabIndex = 27;
+            this.button10.Text = "=";
+            this.button10.UseVisualStyleBackColor = true;
+            this.button10.Click += new System.EventHandler(this.button10_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(1087, 908);
+            this.ClientSize = new System.Drawing.Size(1087, 922);
+            this.Controls.Add(this.button10);
+            this.Controls.Add(this.button9);
+            this.Controls.Add(this.button7);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.currentPosition);
             this.Controls.Add(this.label1);
@@ -217,11 +253,15 @@
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
+            this.KeyPreview = true;
             this.Name = "Form1";
             this.Text = "Form1";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Scroll += new System.Windows.Forms.ScrollEventHandler(this.Form1_Scroll);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Form1_KeyPress);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyUp);
             ((System.ComponentModel.ISupportInitialize)(this.currentPosition)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel1.ResumeLayout(false);
@@ -248,6 +288,9 @@
         private System.Windows.Forms.Label label2;
         public System.Windows.Forms.TextBox textBox1;
         public System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.Button button10;
     }
 }
 

@@ -33,6 +33,7 @@ namespace Tripper
         float currentBpm;
         float bpmDelta;
         long samplePosition;
+        long _nudge;
 
         public void setBPM(float _bpm)
         {
@@ -78,9 +79,16 @@ namespace Tripper
             return samplePosition;
         }
 
+        public void nudge(long amt)
+        {
+            _nudge = amt;
+        }
+
         public void stepChannels()
         {
             long diff = stopwatch.ElapsedMilliseconds - previousStepTimestep;
+            diff += _nudge;
+            _nudge = 0;
             long stepDistance = (long)(diff * 88 * bpmDelta);
             samplePosition += stepDistance;
             previousStepTimestep = stopwatch.ElapsedMilliseconds;
@@ -203,7 +211,7 @@ namespace Tripper
             analyser2.setSamplingRate(analyser._samplingLength, audioFileReader.Length);
             analyser2.analyse();
 
-            InfoPanel _panel = new InfoPanel(pictureBox.Location.Y);
+            InfoPanel _panel = new InfoPanel(pictureBox.Location.Y, analyser2);
             _panel.setDMXChannel(analyser2._channel.dmxChannel);
 
             pictureBoxes.Add(pictureBox);
