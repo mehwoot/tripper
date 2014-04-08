@@ -66,7 +66,7 @@ namespace Tripper
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            currentPosition.Left = ((int)((audio.playBarPosition()) * 1024)) + 12;// -offset;
+            currentPosition.Left = ((int)((audio.getSamplePosition() / audio.analyser._samplingLength)) + 96);// -offset;
             lock (debugLock)
             {
                 foreach (string item in debugItems)
@@ -86,7 +86,7 @@ namespace Tripper
 
         private void setAnalysisImage()
         {
-            pictureBox1.ClientSize = new Size(audio.analyser.width, 256);
+            pictureBox1.ClientSize = new Size(audio.analyser.width, 128);
             pictureBox1.Image = audio.analyser.rendering;
         }
 
@@ -151,7 +151,7 @@ namespace Tripper
             {
                 string name = openFileDialog1.FileName.Substring(0, openFileDialog1.FileName.Length - 4);
                 audio = new Audio(name);
-                pictureBox1.ClientSize = new Size(10000, 256);
+                pictureBox1.ClientSize = new Size(10000, 128);
                 pictureBox1.Image = audio.analyser.rendering;
                 timer1.Enabled = true;
                 stopwatch.Start();
@@ -163,6 +163,39 @@ namespace Tripper
         private void button6_Click(object sender, EventArgs e)
         {
             audio.addChannel();
+        }
+
+        private void Form1_Scroll(object sender, ScrollEventArgs e)
+        {
+
+        }
+
+        private void panel1_Scroll(object sender, ScrollEventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                audio.setBPM(float.Parse(textBox1.Text));
+            }
+            catch (Exception e1) { }
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                audio.setCurrentBpm(float.Parse(textBox2.Text));
+            }
+            catch (Exception e1) { }
         }
     }
 }

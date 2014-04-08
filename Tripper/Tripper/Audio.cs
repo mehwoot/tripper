@@ -28,6 +28,30 @@ namespace Tripper
         long previousStepTimestep;
         public bool sendingDMX;
         string _name;
+        Panel panel;
+        float bpm;
+        float currentBpm;
+        float bpmDelta;
+        long samplePosition;
+
+        public void setBPM(float _bpm)
+        {
+            bpm = _bpm;
+            Form1.get.textBox1.Text = _bpm.ToString();
+            calculateBpmDelta();
+        }
+
+        public void setCurrentBpm(float _bpm)
+        {
+            currentBpm = _bpm;
+            Form1.get.textBox2.Text = _bpm.ToString();
+            calculateBpmDelta();
+        }
+
+        private void calculateBpmDelta()
+        {
+            bpmDelta = (currentBpm / bpm);
+        }
 
         public void setPlayPosition(int position)
         {
@@ -43,28 +67,23 @@ namespace Tripper
             {
                 channel._channel.setPosition(position * analyser._samplingLength);
             }
-        }
-
-        public float playBarPosition()
-        {
-            return (float)(audioFileReader.Position) / (float)(analyser._samplingLength * 4 * 1024);
-        }
-
-        public long getPosition()
-        {
-            return (stopwatch.ElapsedMilliseconds * 88 * 4) + 105000;
+            stopwatch.Reset();// = (long)(position * analyser._samplingLength) / 88.0f;
+            stopwatch.Start();
+            samplePosition = position * analyser._samplingLength;
+            previousStepTimestep = 0;
         }
 
         public long getSamplePosition()
         {
-            return (stopwatch.ElapsedMilliseconds * 88);// +105000;
+            return samplePosition;
         }
 
         public void stepChannels()
         {
-            long samplePosition = getSamplePosition();
-            long stepDistance = samplePosition - previousStepTimestep;
-            previousStepTimestep = samplePosition;
+            long diff = stopwatch.ElapsedMilliseconds - previousStepTimestep;
+            long stepDistance = (long)(diff * 88 * bpmDelta);
+            samplePosition += stepDistance;
+            previousStepTimestep = stopwatch.ElapsedMilliseconds;
             for (int i = 0; i < channels.Count(); i++)
             {
                 channels[i]._channel.step((int)stepDistance);
@@ -89,6 +108,11 @@ namespace Tripper
             pictureBoxes = new List<PictureBox>();
             channels = new List<ChannelAnalyser>();
             loadChannels(name);
+            currentBpm = 1.0f;
+            setBPM(1.0f);
+            setCurrentBpm(1.0f);
+            samplePosition = 0;
+            
         }
 
         public void createChannels()
@@ -99,7 +123,7 @@ namespace Tripper
 
                 PictureBox pictureBox = new PictureBox();
                 ((System.ComponentModel.ISupportInitialize)(pictureBox)).BeginInit();
-                pictureBox.Location = new System.Drawing.Point(12, ((i - 4) * 136) + 305);
+                pictureBox.Location = new System.Drawing.Point(12, ((i - 4) * 136) + 180);
                 pictureBox.Name = "pictureBoxChannel" + i.ToString();
                 pictureBox.Size = new System.Drawing.Size(1024, 128);
                 pictureBox.Visible = true;
@@ -119,10 +143,13 @@ namespace Tripper
         public void saveChannels()
         {
             System.IO.StreamWriter file = new System.IO.StreamWriter(_name + ".channel");
+            file.WriteLine("info");
+            file.WriteLine(bpm);
             foreach (ChannelAnalyser channel in channels)
             {
                 channel.writeToFile(file);
             }
+            
             file.Close();
         }
 
@@ -132,9 +159,32 @@ namespace Tripper
             addChannel(channel);
         }
 
-        public Panel constructChannelPanel()
+        public void positionPanels()
         {
-            return null;
+            panel.Left = 10;
+        }
+
+        public Panel constructChannelPanel(int y)
+        {
+            Panel panel = new System.Windows.Forms.Panel();
+            panel.Location = new System.Drawing.Point(10, y);
+            panel.Name = "panel" + y.ToString();
+            panel.Size = new System.Drawing.Size(80, 130);
+            panel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+
+            panel.SuspendLayout();
+
+            Label label = new Label();
+            label.AutoSize = true;
+            label.Location = new System.Drawing.Point(10, 50);
+            label.Name = "label" + y.ToString();
+            label.Size = new System.Drawing.Size(35, 13);
+            label.Text = "Channel";
+
+            panel.Controls.Add(label);
+            panel.ResumeLayout(true);
+            
+            return panel;
         }
 
         public void addChannel(Channel channel)
@@ -142,7 +192,7 @@ namespace Tripper
 
             PictureBox pictureBox = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)(pictureBox)).BeginInit();
-            pictureBox.Location = new System.Drawing.Point(12, (channels.Count * 136) + 305);
+            pictureBox.Location = new System.Drawing.Point(12, (channels.Count * 136) + 180);
             pictureBox.Name = "pictureBoxChannel" + channels.Count.ToString();
             pictureBox.Size = new System.Drawing.Size(1024, 128);
             Form1.get.panel1.Controls.Add(pictureBox);
@@ -152,6 +202,9 @@ namespace Tripper
             ChannelAnalyser analyser2 = new ChannelAnalyser(channel, pictureBox);
             analyser2.setSamplingRate(analyser._samplingLength, audioFileReader.Length);
             analyser2.analyse();
+
+            InfoPanel _panel = new InfoPanel(pictureBox.Location.Y);
+            _panel.setDMXChannel(analyser2._channel.dmxChannel);
 
             pictureBoxes.Add(pictureBox);
             channels.Add(analyser2);
@@ -174,6 +227,11 @@ namespace Tripper
                 return;
             }
             string line = file.ReadLine();
+            if (line == "info")
+            {
+                setBPM(float.Parse(file.ReadLine()));
+                line = file.ReadLine();
+            }
             while (line == "channel") {
                 Channel channel = new Channel(file);
                 addChannel(channel);

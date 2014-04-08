@@ -62,10 +62,10 @@ namespace Tripper
         public void clear()
         {
             width = (int)(audioFileReader.Length / (long)(_samplingLength * 4)) + 1;
-            rendering = new Bitmap(width, 256);
+            rendering = new Bitmap(width, 128);
             values = new int[width];
             graphics = Graphics.FromImage(rendering);
-            graphics.DrawLine(System.Drawing.Pens.Red, new Point(0, 128), new Point(width, 128));
+            graphics.DrawLine(System.Drawing.Pens.Red, new Point(0, 64), new Point(width, 64));
             currentMax = 0;
             currentMin = 0;
             sampleCount = 0;
@@ -74,8 +74,8 @@ namespace Tripper
 
         public void addSample(float value)
         {
-            currentMax = Math.Max((int)(value * 200), currentMax);
-            currentMin = Math.Min((int)(value * 200), currentMin);
+            currentMax = Math.Max((int)(value * 120), currentMax);
+            currentMin = Math.Min((int)(value * 120), currentMin);
 
             valueCount += granularity;
             if (valueCount >= _samplingLength)
@@ -86,7 +86,7 @@ namespace Tripper
 
         public void renderSample()
         {
-            graphics.DrawLine(System.Drawing.Pens.Black, new Point(sampleCount, (256 - currentMax) / 2), new Point(sampleCount, (256 - currentMin) / 2));
+            graphics.DrawLine(System.Drawing.Pens.Black, new Point(sampleCount, (128 - currentMax) / 2), new Point(sampleCount, (128 - currentMin) / 2));
             values[sampleCount] = currentMax;
             valueCount %= _samplingLength;
             sampleCount++;
