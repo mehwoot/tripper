@@ -22,7 +22,7 @@ namespace Tripper
         public int width;
         int[] values;
         public const int granularity = 32;
-        List<Marker> markers;
+        public List<Marker> markers;
         public string _filename;
 
         public AudioAnalyser()
@@ -30,10 +30,13 @@ namespace Tripper
             markers = new List<Marker>();
         }
 
-        public void addMarker(long position)
+        public void addMarker(long position, bool _analyse = true)
         {
             markers.Add(new Marker("test", position));
-            analyse(_samplingLength, _filename);
+            if (_analyse)
+            {
+                analyse(_samplingLength, _filename);
+            }
         }
 
         public int currentVolume(long position) {
@@ -75,7 +78,9 @@ namespace Tripper
         {
             foreach (Marker marker in markers)
             {
-                graphics.DrawString(marker.name, System.Drawing.SystemFonts.DefaultFont, System.Drawing.Brushes.Black, new PointF(.01f, 0.02f));
+                int left = (int)(marker.position / _samplingLength);
+                graphics.DrawRectangle(System.Drawing.Pens.Green, new Rectangle(left, 0, 50, 25));
+                graphics.DrawString(marker.name, System.Drawing.SystemFonts.MessageBoxFont, System.Drawing.Brushes.Black, new PointF((float)left, 0.0f));
             }
         }
 

@@ -127,6 +127,7 @@ namespace Tripper
             setBPM(1.0f);
             setCurrentBpm(1.0f);
             samplePosition = 0;
+            analyser.drawMarkers();
             
         }
 
@@ -160,6 +161,11 @@ namespace Tripper
             System.IO.StreamWriter file = new System.IO.StreamWriter(_name + ".channel");
             file.WriteLine("info");
             file.WriteLine(bpm);
+            file.WriteLine(analyser.markers.Count);
+            foreach (Marker marker in analyser.markers) {
+                file.WriteLine(marker.name);
+                file.WriteLine(marker.position);
+            }
             foreach (ChannelAnalyser channel in channels)
             {
                 channel.writeToFile(file);
@@ -245,6 +251,13 @@ namespace Tripper
             if (line == "info")
             {
                 setBPM(float.Parse(file.ReadLine()));
+                int numMarkers = int.Parse(file.ReadLine());
+                for (int i = 0; i < numMarkers; i++)
+                {
+                    string _name = file.ReadLine();
+                    long position = long.Parse(file.ReadLine());
+                    analyser.markers.Add(new Marker(_name, position));
+                }
                 line = file.ReadLine();
             }
             while (line == "channel") {

@@ -109,6 +109,7 @@ namespace Tripper
         public void writeToFile(StreamWriter file)
         {
             _channel.writeToFile(file);
+            //file.WriteLine(markers)
         }
     }
 }
