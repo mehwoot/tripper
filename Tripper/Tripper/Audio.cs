@@ -74,9 +74,9 @@ namespace Tripper
             previousStepTimestep = 0;
         }
 
-        public void addMarker(long position)
+        public void addMarker(long position, string name)
         {
-            analyser.addMarker(position * analyser._samplingLength);
+            analyser.addMarker(position * analyser._samplingLength, name);
         }
 
         public long getSamplePosition()

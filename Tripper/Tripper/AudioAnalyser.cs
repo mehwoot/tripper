@@ -30,9 +30,9 @@ namespace Tripper
             markers = new List<Marker>();
         }
 
-        public void addMarker(long position, bool _analyse = true)
+        public void addMarker(long position, string name, bool _analyse = true)
         {
-            markers.Add(new Marker("test", position));
+            markers.Add(new Marker(name, position));
             if (_analyse)
             {
                 analyse(_samplingLength, _filename);
