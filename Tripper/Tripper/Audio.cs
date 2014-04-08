@@ -74,6 +74,11 @@ namespace Tripper
             previousStepTimestep = 0;
         }
 
+        public void addMarker(long position)
+        {
+            analyser.addMarker(position * analyser._samplingLength);
+        }
+
         public long getSamplePosition()
         {
             return samplePosition;
@@ -83,6 +88,8 @@ namespace Tripper
         {
             _nudge = amt;
         }
+
+
 
         public void stepChannels()
         {

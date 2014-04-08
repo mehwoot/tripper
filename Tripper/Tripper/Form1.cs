@@ -61,16 +61,21 @@ namespace Tripper
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
+            System.Windows.Forms.MouseEventArgs evt = (System.Windows.Forms.MouseEventArgs)e;
             if (!altDown)
             {
-                System.Windows.Forms.MouseEventArgs evt = (System.Windows.Forms.MouseEventArgs)e;
                 audio.setPlayPosition(evt.X);
+            }
+            else
+            {
+                audio.addMarker(evt.X);
+                setAnalysisImage();
             }
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            currentPosition.Left = ((int)((audio.getSamplePosition() / audio.analyser._samplingLength)) + 96);// -offset;
+            currentPosition.Left = ((int)((audio.getSamplePosition() / audio.analyser._samplingLength))) + 96;
             lock (debugLock)
             {
                 foreach (string item in debugItems)

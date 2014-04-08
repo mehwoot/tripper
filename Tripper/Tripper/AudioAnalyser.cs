@@ -23,9 +23,17 @@ namespace Tripper
         int[] values;
         public const int granularity = 32;
         List<Marker> markers;
+        public string _filename;
 
         public AudioAnalyser()
         {
+            markers = new List<Marker>();
+        }
+
+        public void addMarker(long position)
+        {
+            markers.Add(new Marker("test", position));
+            analyse(_samplingLength, _filename);
         }
 
         public int currentVolume(long position) {
@@ -39,6 +47,7 @@ namespace Tripper
         public int analyse(int samplingLength, string filename)
         {
             audioFileReader = new AudioFileReader(filename);
+            _filename = filename;
             _samplingLength = samplingLength;
             clear();
 
@@ -57,7 +66,17 @@ namespace Tripper
 
             }
 
+            drawMarkers();
+
             return totalRead;
+        }
+
+        public void drawMarkers()
+        {
+            foreach (Marker marker in markers)
+            {
+                graphics.DrawString(marker.name, System.Drawing.SystemFonts.DefaultFont, System.Drawing.Brushes.Black, new PointF(.01f, 0.02f));
+            }
         }
 
         public void clear()

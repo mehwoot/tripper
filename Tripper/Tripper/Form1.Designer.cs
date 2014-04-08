@@ -73,7 +73,7 @@
             // 
             this.currentPosition.BackColor = System.Drawing.SystemColors.MenuHighlight;
             this.currentPosition.InitialImage = ((System.Drawing.Image)(resources.GetObject("currentPosition.InitialImage")));
-            this.currentPosition.Location = new System.Drawing.Point(85, 56);
+            this.currentPosition.Location = new System.Drawing.Point(85, 73);
             this.currentPosition.Name = "currentPosition";
             this.currentPosition.Size = new System.Drawing.Size(5, 128);
             this.currentPosition.TabIndex = 24;
