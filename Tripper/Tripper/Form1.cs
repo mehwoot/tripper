@@ -280,5 +280,10 @@ namespace Tripper
             }
             catch (Exception e1) { }
         }
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

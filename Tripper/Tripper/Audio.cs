@@ -128,6 +128,7 @@ namespace Tripper
             setCurrentBpm(1.0f);
             samplePosition = 0;
             analyser.drawMarkers();
+            analyser.syncMarkers();
             
         }
 

@@ -37,6 +37,16 @@ namespace Tripper
             {
                 analyse(_samplingLength, _filename);
             }
+            syncMarkers();
+        }
+
+        public void syncMarkers()
+        {
+            Form1.get.comboBox1.Items.Clear();
+            foreach (Marker marker in markers)
+            {
+                Form1.get.comboBox1.Items.Add(marker);
+            }
         }
 
         public int currentVolume(long position) {

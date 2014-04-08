@@ -61,7 +61,7 @@
             // 
             this.button1.Location = new System.Drawing.Point(12, 12);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 49);
+            this.button1.Size = new System.Drawing.Size(75, 51);
             this.button1.TabIndex = 0;
             this.button1.Text = "Load";
             this.button1.UseVisualStyleBackColor = true;
@@ -161,9 +161,9 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(255, 38);
+            this.button6.Location = new System.Drawing.Point(255, 41);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(101, 23);
+            this.button6.Size = new System.Drawing.Size(101, 22);
             this.button6.TabIndex = 18;
             this.button6.Text = "Add Channel";
             this.button6.UseVisualStyleBackColor = true;
@@ -253,12 +253,13 @@
             // 
             // button12
             // 
-            this.button12.Location = new System.Drawing.Point(362, 14);
+            this.button12.Location = new System.Drawing.Point(362, 12);
             this.button12.Name = "button12";
-            this.button12.Size = new System.Drawing.Size(75, 47);
+            this.button12.Size = new System.Drawing.Size(75, 51);
             this.button12.TabIndex = 30;
             this.button12.Text = "SMOKE";
             this.button12.UseVisualStyleBackColor = true;
+            this.button12.Click += new System.EventHandler(this.button12_Click);
             // 
             // Form1
             // 
