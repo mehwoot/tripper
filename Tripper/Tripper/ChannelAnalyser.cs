@@ -43,15 +43,6 @@ namespace Tripper
             rendering = new Bitmap(width, 128);
             graphics = Graphics.FromImage(rendering);
             graphics.DrawLine(System.Drawing.Pens.Red, new Point(0, 64), new Point(width, 64));
-            if (verticalQuantise != 1)
-            {
-                int at = 0;
-                while (at <= 128)
-                {
-                    graphics.DrawLine(System.Drawing.Pens.Blue, new Point(0, at), new Point(width, at));
-                    at += verticalQuantise;
-                }
-            }
         }
 
         public void setVerticalQuantise(int _verticalQuantise)
@@ -63,6 +54,7 @@ namespace Tripper
         public void analyse()
         {
             clear();
+            _channel.pushState();
             _channel.setPosition(0);
             for (int i = 0; i < width; i++)
             {
@@ -78,6 +70,16 @@ namespace Tripper
 
                 picture.ClientSize = new Size(width, 128);
             picture.Image = rendering;
+            _channel.popState();
+            if (verticalQuantise != 1)
+            {
+                int at = 0;
+                while (at <= 128)
+                {
+                    graphics.DrawLine(System.Drawing.Pens.Blue, new Point(0, at), new Point(width, at));
+                    at += verticalQuantise;
+                }
+            }
         }
 
         public void pictureClick(object sender, EventArgs e)

@@ -54,9 +54,9 @@ namespace Tripper
             bpmDelta = (currentBpm / bpm);
         }
 
-        public void setPlayPosition(int position)
+        public void _setPlayPosition(long position)
         {
-            audioFileReader.Position = (analyser._samplingLength * 4 * position);
+            audioFileReader.Position = (4 * position);
             waveOutDevice.Dispose();
             waveOutDevice = new WaveOut();
             waveOutDevice.Init(audioFileReader);
@@ -66,12 +66,17 @@ namespace Tripper
             }
             foreach (ChannelAnalyser channel in channels)
             {
-                channel._channel.setPosition(position * analyser._samplingLength);
+                channel._channel.setPosition(position);
             }
             stopwatch.Reset();// = (long)(position * analyser._samplingLength) / 88.0f;
             stopwatch.Start();
-            samplePosition = position * analyser._samplingLength;
+            samplePosition = position;
             previousStepTimestep = 0;
+        }
+
+        public void setPlayPosition(int position)
+        {
+            _setPlayPosition(position * analyser._samplingLength);
         }
 
         public void addMarker(long position, string name)
@@ -139,25 +144,11 @@ namespace Tripper
 
         public void createChannels()
         {
-            for (int i = 4; i <= 10; i++)
+            int[] channels = {1,2,3,4,5};
+            for (int i = 0; i < channels.Count(); i++)
             {
-                Channel channel = new Channel(i);
-
-                PictureBox pictureBox = new PictureBox();
-                ((System.ComponentModel.ISupportInitialize)(pictureBox)).BeginInit();
-                pictureBox.Location = new System.Drawing.Point(12, ((i - 4) * 136) + 180);
-                pictureBox.Name = "pictureBoxChannel" + i.ToString();
-                pictureBox.Size = new System.Drawing.Size(1024, 128);
-                pictureBox.Visible = true;
-                Form1.get.Controls.Add(pictureBox);
-                ((System.ComponentModel.ISupportInitialize)(pictureBox)).EndInit();
-
-                ChannelAnalyser analyser2 = new ChannelAnalyser(channel, pictureBox);
-                analyser2.setSamplingRate(analyser._samplingLength, audioFileReader.Length);
-                analyser2.analyse();
-                pictureBoxes.Add(pictureBox);
-                channels.Add(analyser2);
-
+                Channel channel = new Channel(channels[i]);
+                addChannel(channel);
             }
             Form1.get.ResumeLayout(true);
         }
@@ -219,7 +210,7 @@ namespace Tripper
 
             PictureBox pictureBox = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)(pictureBox)).BeginInit();
-            pictureBox.Location = new System.Drawing.Point(12, (channels.Count * 136) + 180);
+            pictureBox.Location = new System.Drawing.Point(10, (channels.Count * 136) + 180);
             pictureBox.Name = "pictureBoxChannel" + channels.Count.ToString();
             pictureBox.Size = new System.Drawing.Size(1024, 128);
             Form1.get.panel1.Controls.Add(pictureBox);
@@ -277,6 +268,11 @@ namespace Tripper
         public void zoom(bool zoomOut)
         {
             analyser.analyse(zoomOut ? analyser._samplingLength * 2 : analyser._samplingLength / 2, filename);
+            foreach (ChannelAnalyser channelAnalyser in channels)
+            {
+                channelAnalyser.setSamplingRate(analyser._samplingLength, audioFileReader.Length);
+                channelAnalyser.analyse();
+            }
         }
 
         public void play()
@@ -319,7 +315,7 @@ namespace Tripper
                     {
                         DMX.setDmx(channelAnalyser._channel.dmxChannel, (byte)(channelAnalyser._channel.getValue() * 255), false);
                     }
-                    Form1.get.debug(channels[0]._channel.getValue().ToString());
+                    //Form1.get.debug(channels[0]._channel.getValue().ToString());
                     DMX.setDmx(0, 0, true);
                     Thread.Sleep(10);
                 }

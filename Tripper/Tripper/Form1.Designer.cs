@@ -54,6 +54,7 @@
             this.button12 = new System.Windows.Forms.Button();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.button13 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.currentPosition)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
@@ -71,6 +72,7 @@
             // 
             // timer1
             // 
+            this.timer1.Enabled = true;
             this.timer1.Interval = 1;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
@@ -78,7 +80,7 @@
             // 
             this.currentPosition.BackColor = System.Drawing.SystemColors.MenuHighlight;
             this.currentPosition.InitialImage = ((System.Drawing.Image)(resources.GetObject("currentPosition.InitialImage")));
-            this.currentPosition.Location = new System.Drawing.Point(85, 73);
+            this.currentPosition.Location = new System.Drawing.Point(12, 73);
             this.currentPosition.Name = "currentPosition";
             this.currentPosition.Size = new System.Drawing.Size(5, 128);
             this.currentPosition.TabIndex = 24;
@@ -136,7 +138,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox1.Location = new System.Drawing.Point(10, 3);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(1024, 128);
             this.pictureBox1.TabIndex = 2;
@@ -243,6 +245,7 @@
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(121, 21);
             this.comboBox1.TabIndex = 28;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // button11
             // 
@@ -280,12 +283,24 @@
             this.label3.TabIndex = 32;
             this.label3.Text = "Marker Name";
             // 
+            // button13
+            // 
+            this.button13.Location = new System.Drawing.Point(443, 13);
+            this.button13.Name = "button13";
+            this.button13.Size = new System.Drawing.Size(75, 51);
+            this.button13.TabIndex = 33;
+            this.button13.Text = "SYNC";
+            this.button13.UseVisualStyleBackColor = true;
+            this.button13.Click += new System.EventHandler(this.button13_Click);
+            // 
             // Form1
             // 
+            this.AcceptButton = this.button13;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(1087, 922);
+            this.Controls.Add(this.currentPosition);
+            this.Controls.Add(this.button13);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.button12);
@@ -295,7 +310,6 @@
             this.Controls.Add(this.button9);
             this.Controls.Add(this.button7);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.currentPosition);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.textBox1);
@@ -316,6 +330,7 @@
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Form1_KeyPress);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyUp);
+            this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseClick);
             ((System.ComponentModel.ISupportInitialize)(this.currentPosition)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel1.ResumeLayout(false);
@@ -350,6 +365,7 @@
         public System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button button13;
     }
 }
 

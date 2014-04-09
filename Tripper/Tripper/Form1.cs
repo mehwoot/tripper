@@ -27,6 +27,8 @@ namespace Tripper
         Object debugLock;
         Thread dmxThread;
         public bool altDown;
+        bool spaceUp;
+        int previousCursorPosition;
 
         public Form1(Form2 _debugForm)
         {
@@ -38,6 +40,8 @@ namespace Tripper
             stopwatch = new Stopwatch();
             debugItems = new List<string>();
             debugLock = new Object();
+            spaceUp = true;
+            previousCursorPosition = 0;
         }
 
         public void debug(string item)
@@ -52,7 +56,11 @@ namespace Tripper
         {
             openFileDialog1.InitialDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             openFileDialog1.ShowDialog();
-            
+            if (comboBox1.Items.Count > 0)
+            {
+                comboBox1.SelectedIndex = 0;
+            }
+            button13.Focus();
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -85,7 +93,12 @@ namespace Tripper
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            currentPosition.Left = ((int)((audio.getSamplePosition() / audio.analyser._samplingLength))) + 96;
+            //currentPosition.Left += (((int)((audio.getSamplePosition() / audio.analyser._samplingLength))) + 10) - previousCursorPosition;
+            if (audio != null)
+            {
+                currentPosition.Left = (((int)((audio.getSamplePosition() / audio.analyser._samplingLength))) + 100) - panel1.HorizontalScroll.Value;
+            }
+            //currentPosition.Left = ((int)((audio.getSamplePosition() / audio.analyser._samplingLength))) + 96;
             lock (debugLock)
             {
                 foreach (string item in debugItems)
@@ -116,6 +129,7 @@ namespace Tripper
                 audio.zoom(false);
                 setAnalysisImage();
             }
+            button13.Focus();
         }
 
         private void button3_Click_1(object sender, EventArgs e)
@@ -125,18 +139,20 @@ namespace Tripper
                 audio.zoom(true);
                 setAnalysisImage();
             }
+            button13.Focus();
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
             audio.play();
             timer1.Enabled = true;
+            button13.Focus();
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
             audio.pause();
-            timer1.Enabled = false;
+            button13.Focus();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -170,7 +186,7 @@ namespace Tripper
             {
                 string name = openFileDialog1.FileName.Substring(0, openFileDialog1.FileName.Length - 4);
                 audio = new Audio(name);
-                pictureBox1.ClientSize = new Size(10000, 128);
+                pictureBox1.ClientSize = new Size(audio.analyser.rendering.Width, audio.analyser.rendering.Height);
                 pictureBox1.Image = audio.analyser.rendering;
                 timer1.Enabled = true;
                 stopwatch.Start();
@@ -199,7 +215,7 @@ namespace Tripper
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            if (textBox1.Text.ToCharArray().Last() == '.')
+            if (textBox1.Text.Count() > 0 && textBox1.Text.ToCharArray().Last() == '.')
             {
                 return;
             }
@@ -217,7 +233,7 @@ namespace Tripper
 
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
-            if (textBox2.Text.ToCharArray().Last() == '.')
+            if (textBox2.Text.Count() > 0 && textBox2.Text.ToCharArray().Last() == '.')
             {
                 return;
             }
@@ -268,6 +284,7 @@ namespace Tripper
                 textBox2.Text = bpm.ToString();
             }
             catch (Exception e1) { }
+            button13.Focus();
         }
 
         private void button9_Click(object sender, EventArgs e) {
@@ -278,6 +295,7 @@ namespace Tripper
                 textBox2.Text = bpm.ToString();
             }
             catch (Exception e1) { }
+            button13.Focus();
         }
 
         private void button10_Click(object sender, EventArgs e)
@@ -289,11 +307,12 @@ namespace Tripper
                 textBox2.Text = b.ToString();
             }
             catch (Exception e1) { }
+            button13.Focus();
         }
 
         private void button12_Click(object sender, EventArgs e)
         {
-
+            button13.Focus();
         }
 
         private void button11_Click(object sender, EventArgs e)
@@ -306,6 +325,26 @@ namespace Tripper
                     audio.removeMarker((Marker)o);
                     setAnalysisImage();
                 }
+            }
+        }
+
+        private void Form1_MouseClick(object sender, MouseEventArgs e)
+        {
+            button13.Focus();
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            button13.Focus();
+        }
+
+        private void button13_Click(object sender, EventArgs e)
+        {
+            Marker o = (Marker)comboBox1.SelectedItem;
+            if (o != null)
+            {
+                audio._setPlayPosition(o.position);
+                button11.Text = o.position.ToString();
             }
         }
     }
