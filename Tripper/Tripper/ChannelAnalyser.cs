@@ -77,7 +77,7 @@ namespace Tripper
                 int at = 0;
                 while (at <= 128)
                 {
-                    graphics.DrawLine(System.Drawing.Pens.Blue, new Point(0, at), new Point(width, at));
+                    graphics.DrawLine(System.Drawing.Pens.Blue, new Point(0, 128 - at), new Point(width, 128 - at));
                     at += verticalQuantise;
                 }
             }
@@ -91,11 +91,12 @@ namespace Tripper
             x -= (x % quantise) - quantise + (quantise / 2);
             x *= _samplingLength;
 
-            int y = evt.Y;
+            int y = 128 - evt.Y;
             if (verticalQuantise != 1)
             {
                 y = (y - (y % verticalQuantise)) + (verticalQuantise / 2);
             }
+            y = 128 - y;
 
             if (evt.Button == MouseButtons.Left)
             {

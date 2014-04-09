@@ -355,6 +355,7 @@ namespace Tripper
                 pictureBox1.Top += 40;
             }
             pictureBox1.Top += 131;
+            currentPosition.Top = pictureBox1.Top + 70;
         }
 
         private void button15_Click(object sender, EventArgs e)
@@ -364,6 +365,7 @@ namespace Tripper
                 pictureBox1.Top -= 40;
             }
             pictureBox1.Top -= 131;
+            currentPosition.Top = pictureBox1.Top + 70;
         }
     }
 }
