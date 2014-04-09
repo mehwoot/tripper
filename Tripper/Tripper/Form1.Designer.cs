@@ -55,6 +55,8 @@
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.button13 = new System.Windows.Forms.Button();
+            this.button14 = new System.Windows.Forms.Button();
+            this.button15 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.currentPosition)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
@@ -259,6 +261,7 @@
             // 
             // button12
             // 
+            this.button12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button12.Location = new System.Drawing.Point(362, 12);
             this.button12.Name = "button12";
             this.button12.Size = new System.Drawing.Size(75, 51);
@@ -285,7 +288,8 @@
             // 
             // button13
             // 
-            this.button13.Location = new System.Drawing.Point(443, 13);
+            this.button13.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button13.Location = new System.Drawing.Point(443, 12);
             this.button13.Name = "button13";
             this.button13.Size = new System.Drawing.Size(75, 51);
             this.button13.TabIndex = 33;
@@ -293,12 +297,34 @@
             this.button13.UseVisualStyleBackColor = true;
             this.button13.Click += new System.EventHandler(this.button13_Click);
             // 
+            // button14
+            // 
+            this.button14.Location = new System.Drawing.Point(524, 41);
+            this.button14.Name = "button14";
+            this.button14.Size = new System.Drawing.Size(77, 23);
+            this.button14.TabIndex = 34;
+            this.button14.Text = "Down";
+            this.button14.UseVisualStyleBackColor = true;
+            this.button14.Click += new System.EventHandler(this.button14_Click);
+            // 
+            // button15
+            // 
+            this.button15.Location = new System.Drawing.Point(524, 14);
+            this.button15.Name = "button15";
+            this.button15.Size = new System.Drawing.Size(77, 23);
+            this.button15.TabIndex = 35;
+            this.button15.Text = "Up";
+            this.button15.UseVisualStyleBackColor = true;
+            this.button15.Click += new System.EventHandler(this.button15_Click);
+            // 
             // Form1
             // 
             this.AcceptButton = this.button13;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1087, 922);
+            this.Controls.Add(this.button15);
+            this.Controls.Add(this.button14);
             this.Controls.Add(this.currentPosition);
             this.Controls.Add(this.button13);
             this.Controls.Add(this.label3);
@@ -366,6 +392,8 @@
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button13;
+        private System.Windows.Forms.Button button14;
+        private System.Windows.Forms.Button button15;
     }
 }
 

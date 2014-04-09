@@ -41,6 +41,7 @@ namespace Tripper
         public void clear()
         {
             rendering = new Bitmap(width, 128);
+            rendering.MakeTransparent();
             graphics = Graphics.FromImage(rendering);
             graphics.DrawLine(System.Drawing.Pens.Red, new Point(0, 64), new Point(width, 64));
         }

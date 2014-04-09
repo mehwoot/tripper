@@ -210,7 +210,7 @@ namespace Tripper
 
             PictureBox pictureBox = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)(pictureBox)).BeginInit();
-            pictureBox.Location = new System.Drawing.Point(10, (channels.Count * 136) + 180);
+            pictureBox.Location = new System.Drawing.Point(10, (channels.Count * 131) + 180);
             pictureBox.Name = "pictureBoxChannel" + channels.Count.ToString();
             pictureBox.Size = new System.Drawing.Size(1024, 128);
             Form1.get.panel1.Controls.Add(pictureBox);

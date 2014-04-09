@@ -347,5 +347,23 @@ namespace Tripper
                 button11.Text = o.position.ToString();
             }
         }
+
+        private void button14_Click(object sender, EventArgs e)
+        {
+            if (pictureBox1.Top == 3)
+            {
+                pictureBox1.Top += 40;
+            }
+            pictureBox1.Top += 131;
+        }
+
+        private void button15_Click(object sender, EventArgs e)
+        {
+            if (pictureBox1.Top == 174)
+            {
+                pictureBox1.Top -= 40;
+            }
+            pictureBox1.Top -= 131;
+        }
     }
 }
