@@ -295,5 +295,18 @@ namespace Tripper
         {
 
         }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            if (altDown)
+            {
+                object o = comboBox1.SelectedItem;
+                if (o != null)
+                {
+                    audio.removeMarker((Marker)o);
+                    setAnalysisImage();
+                }
+            }
+        }
     }
 }

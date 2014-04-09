@@ -40,6 +40,13 @@ namespace Tripper
             syncMarkers();
         }
 
+        public void removeMarker(Marker marker)
+        {
+            markers.Remove(marker);
+            analyse(_samplingLength, _filename);
+            syncMarkers();
+        }
+
         public void syncMarkers()
         {
             Form1.get.comboBox1.Items.Clear();

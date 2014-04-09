@@ -79,6 +79,11 @@ namespace Tripper
             analyser.addMarker(position * analyser._samplingLength, name);
         }
 
+        public void removeMarker(Marker marker)
+        {
+            analyser.removeMarker(marker);
+        }
+
         public long getSamplePosition()
         {
             return samplePosition;

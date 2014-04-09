@@ -250,8 +250,9 @@
             this.button11.Name = "button11";
             this.button11.Size = new System.Drawing.Size(121, 23);
             this.button11.TabIndex = 29;
-            this.button11.Text = "Remove";
+            this.button11.Text = "Remove (hold alt)";
             this.button11.UseVisualStyleBackColor = true;
+            this.button11.Click += new System.EventHandler(this.button11_Click);
             // 
             // button12
             // 
