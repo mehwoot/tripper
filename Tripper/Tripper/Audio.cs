@@ -35,6 +35,7 @@ namespace Tripper
         long samplePosition;
         long _nudge;
         public bool smoke;
+        public int smokecount;
 
         public void setBPM(float _bpm)
         {
@@ -140,6 +141,7 @@ namespace Tripper
             samplePosition = 0;
             analyser.drawMarkers();
             analyser.syncMarkers();
+            smoke = false;
             
         }
 
@@ -313,11 +315,23 @@ namespace Tripper
                 {
                     if (smoke)
                     {
-                        smoke = false;
+                        smokecount = 30;
+                    }
+                    if (smokecount > 0)
+                    {
+                        smokecount--;
                         DMX.setDmx(1, 200, false);
-                        DMX.setDmx(2, 255, false);
-                        DMX.setDmx(3, 200, false);
+                        DMX.setDmx(2, 200, true);
+                        DMX.setDmx(3, 100, false);
                         DMX.setDmx(4, 255, false);
+                        smoke = false;
+                    }
+                    else
+                    {
+                        DMX.setDmx(1, 0, false);
+                        DMX.setDmx(2, 0, true);
+                        DMX.setDmx(3, 0, false);
+                        DMX.setDmx(4, 0, false);
                     }
                         
                     stepChannels();
