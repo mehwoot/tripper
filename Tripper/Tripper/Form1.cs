@@ -312,6 +312,10 @@ namespace Tripper
 
         private void button12_Click(object sender, EventArgs e)
         {
+            if (audio != null)
+            {
+                audio.smoke = true;
+            }
             button13.Focus();
         }
 

@@ -34,6 +34,7 @@ namespace Tripper
         float bpmDelta;
         long samplePosition;
         long _nudge;
+        public bool smoke;
 
         public void setBPM(float _bpm)
         {
@@ -310,6 +311,15 @@ namespace Tripper
             {
                 if (playing)
                 {
+                    if (smoke)
+                    {
+                        smoke = false;
+                        DMX.setDmx(1, 200, false);
+                        DMX.setDmx(2, 255, false);
+                        DMX.setDmx(3, 200, false);
+                        DMX.setDmx(4, 255, false);
+                    }
+                        
                     stepChannels();
                     foreach (ChannelAnalyser channelAnalyser in channels)
                     {
@@ -318,6 +328,7 @@ namespace Tripper
                     //Form1.get.debug(channels[0]._channel.getValue().ToString());
                     DMX.setDmx(0, 0, true);
                     Thread.Sleep(10);
+
                 }
             }
         }
