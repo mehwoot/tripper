@@ -321,9 +321,9 @@ namespace Tripper
                     {
                         smokecount--;
                         DMX.setDmx(1, 200, false);
-                        DMX.setDmx(2, 200, true);
-                        DMX.setDmx(3, 100, false);
-                        DMX.setDmx(4, 255, false);
+                        DMX.setDmx(2, 200, false);
+                        DMX.setDmx(3, 200, false);
+                        DMX.setDmx(4, 200, true);
                         smoke = false;
                     }
                     else
