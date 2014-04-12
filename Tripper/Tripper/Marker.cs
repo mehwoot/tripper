@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Tripper
 {
-    class Marker
+    public class Marker
     {
         public long position;
         public string name;

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Tripper
 {
-    class Value
+    public class Value
     {
         public long key;
         public float value;
@@ -18,7 +18,7 @@ namespace Tripper
         }
     }
 
-    class ChannelState
+    public class ChannelState
     {
         public long position;
         public Value previousValue;
@@ -39,7 +39,7 @@ namespace Tripper
         }
     }
 
-    class Channel
+    public class Channel
     {
         private Dictionary<long, Value> valuesByKey;
         private List<Value> values;

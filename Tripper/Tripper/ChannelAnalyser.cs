@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace Tripper
 {
-    class ChannelAnalyser
+    public class ChannelAnalyser
     {
         public System.Drawing.Bitmap rendering;
         System.Drawing.Graphics graphics;

@@ -10,7 +10,7 @@ using System.Drawing;
 
 namespace Tripper
 {
-    class AudioAnalyser
+    public class AudioAnalyser
     {
 
         public int _samplingLength;

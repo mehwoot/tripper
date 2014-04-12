@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace Tripper
 {
-    class InfoPanel
+    public class InfoPanel
     {
         public static string[] names = { "", "lazer mode", "lazer pattern", "x", "y" };
         public Panel panel;

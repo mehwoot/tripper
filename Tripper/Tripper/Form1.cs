@@ -18,7 +18,7 @@ namespace Tripper
 {
     public partial class Form1 : Form
     {
-        Audio audio;
+        public Audio audio;
 
         public static Form1 get;
         public static Form2 debugForm;
@@ -168,6 +168,8 @@ namespace Tripper
             {
                 dmxThread.Abort();
             }
+            Form2.get.dmxThread.Abort();
+            Form2.get.reset();
         }
 
         private void button7_Click(object sender, EventArgs e)
@@ -190,8 +192,8 @@ namespace Tripper
                 pictureBox1.Image = audio.analyser.rendering;
                 timer1.Enabled = true;
                 stopwatch.Start();
-                dmxThread = new Thread(new ThreadStart(audio.runChannels));
-                dmxThread.Start();
+                //dmxThread = new Thread(new ThreadStart(audio.runChannels));
+                //dmxThread.Start();
             }
         }
 

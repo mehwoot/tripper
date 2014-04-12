@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Tripper
 {
-    class DMX
+    public class DMX
     {
         [DllImport("PRO_EXAMPLE.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern int main(int send, int channel, byte value);
