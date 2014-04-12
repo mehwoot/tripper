@@ -152,7 +152,7 @@
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(155, 55);
             this.button9.TabIndex = 10;
-            this.button9.Text = "ON";
+            this.button9.Text = "MANUAL";
             this.button9.UseVisualStyleBackColor = true;
             this.button9.Click += new System.EventHandler(this.button9_Click);
             // 
@@ -200,6 +200,7 @@
             this.button13.TabIndex = 14;
             this.button13.Text = "button13";
             this.button13.UseVisualStyleBackColor = true;
+            this.button13.Click += new System.EventHandler(this.button13_Click);
             // 
             // button14
             // 
@@ -219,6 +220,7 @@
             this.button15.TabIndex = 16;
             this.button15.Text = "HORIZONTAL OFF";
             this.button15.UseVisualStyleBackColor = true;
+            this.button15.Click += new System.EventHandler(this.button15_Click);
             // 
             // Form2
             // 
@@ -242,9 +244,11 @@
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.listBox1);
+            this.KeyPreview = true;
             this.Name = "Form2";
             this.Text = "Form2";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form2_FormClosed);
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Form2_KeyPress);
             this.ResumeLayout(false);
             this.PerformLayout();
 

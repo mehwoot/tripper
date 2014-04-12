@@ -29,6 +29,9 @@ namespace Tripper
         public bool lazerVertical;
         public bool lazerHoritzontal;
 
+        public byte lazerY;
+        public byte lazerX;
+
 
         public bool smokeOn;
         public byte smokeLength;
@@ -87,8 +90,19 @@ namespace Tripper
             strobeOn = false;
             lazerVertical = false;
             lazerHoritzontal = false;
+            lazerY = 0;
+            lazerX = 0;
 
             sendDMX();
+
+            DMX.setDmx(1, 0, false);
+            DMX.setDmx(2, 0, false);
+            DMX.setDmx(3, 0, false);
+            DMX.setDmx(4, 0, false);
+
+            DMX.setDmx(5, 0, false);
+            DMX.setDmx(6, 0, false);
+            DMX.setDmx(7, 0, true);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -117,6 +131,14 @@ namespace Tripper
                     DMX.setDmx(33, 225, false);
                 }
                 DMX.setDmx(34, lazerPattern, false);
+                if (lazerHoritzontal)
+                {
+                    DMX.setDmx(36, lazerX, false);
+                }
+                if (lazerVertical)
+                {
+                    DMX.setDmx(35, lazerY, false);
+                }
             }
             else
             {
@@ -148,8 +170,16 @@ namespace Tripper
                 if (beatCountdown < 0)
                 {
                     lazerPattern += 5;
-                    lazerPattern %= 255;
+                    lazerPattern %= 180;
                     beatCountdown += (beatLength * lazerBeat);
+                    if (lazerHoritzontal)
+                    {
+                        lazerX = (byte)(255 - lazerX);
+                    }
+                    if (lazerVertical)
+                    {
+                        lazerY = (byte)(255 - lazerY);
+                    }
                 }
 
                 if (smokeOn)
@@ -343,6 +373,60 @@ namespace Tripper
         }
 
         private void button14_Click(object sender, EventArgs e)
+        {
+            lazerVertical = !lazerVertical;
+            if (lazerVertical)
+            {
+                button14.Text = "VERTICAL ON";
+            }
+            else
+            {
+                button14.Text = "VERTICAL OFF";
+            }
+        }
+
+        private void button15_Click(object sender, EventArgs e)
+        {
+            lazerHoritzontal = !lazerHoritzontal;
+            if (lazerHoritzontal)
+            {
+                button15.Text = "HORIZONTAL ON";
+            }
+            else
+            {
+                button15.Text = "HORIZONTAL OFF";
+            }
+        }
+
+        private void Form2_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 'l')
+            {
+                lazerOn = !lazerOn;
+                if (lazerOn)
+                {
+                    button1.Text = "LAZER ON";
+                }
+                else
+                {
+                    button1.Text = "LAZER OFF";
+                }
+            }
+            if (e.KeyChar == 's')
+            {
+                strobeOn = !strobeOn;
+                if (strobeOn)
+                {
+                    button3.Text = "STROBE ON";
+                }
+                else
+                {
+                    button3.Text = "STROBE OFF";
+                }
+            }
+        }
+
+        private void button13_Click(object sender, EventArgs e)
         {
 
         }

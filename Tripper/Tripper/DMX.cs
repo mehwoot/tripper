@@ -23,13 +23,17 @@ namespace Tripper
             {
                 main(0, 5, value);
             }
-            main(_send, channel, value);  
+            main(_send, channel, value);
+            if (Form1.get != null)
+            {
+                Form1.get.debug(channel.ToString() + " " + value.ToString());
+            }
 
         }
 
         public static void initLazer()
         {
-            setDmx(0, 0, false);
+            /*setDmx(0, 0, false);
             setDmx(1, 155, false);
             setDmx(2, 22, false);
             setDmx(3, 255, false);
@@ -37,7 +41,7 @@ namespace Tripper
             setDmx(5, 0, false);
             setDmx(6, 0, false);
             setDmx(7, 0, false);
-            setDmx(0, 0, true);
+            setDmx(0, 0, true);*/
         }
     }
 }
