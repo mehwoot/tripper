@@ -430,5 +430,10 @@ namespace Tripper
         {
 
         }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            smokeOn = true;
+        }
     }
 }

@@ -46,10 +46,10 @@ namespace Tripper
 
         public void debug(string item)
         {
-            lock (debugLock)
+            /*lock (debugLock)
             {
-                debugItems.Add(item);
-            }
+                //debugItems.Add(item);
+            }*/
         }
 
         private void button1_Click(object sender, EventArgs e)
